@@ -1,5 +1,5 @@
 {
-  "name": "react-datetime",
+  "name": "demisto-react-datetime",
   "version": "2.0.2",
   "description": "A lightweight but complete datetime picker React.js component.",
   "homepage": "https://github.com/arqex/react-datetime",
@@ -20,7 +20,7 @@
     "datetimepicker",
     "datetime"
   ],
-  "author": "Javier Marquez",
+  "author": "Yuri Krupnik",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=0.13",
