@@ -34,7 +34,8 @@ var Datetime = React.createClass({
 		isValidDate: TYPES.func,
 		open: TYPES.bool,
 		strictParsing: TYPES.bool,
-		footer: TYPES.any
+		footer: TYPES.any,
+		header: TYPES.any
 	},
 
 	getDefaultProps: function() {
@@ -321,9 +322,12 @@ var Datetime = React.createClass({
 		return DOM.div({className: className}, children.concat(
 			DOM.div(
 				{ key: 'dt', className: 'rdtPicker' },
+				DOM.div(
+					{key: 'header', className: 'rdtPicker-header'}, this.props.header ? this.props.header : ''
+				),
 				React.createElement( Component, this.getComponentProps()),
 				DOM.div(
-					{key: 'footer', className: 'date-footer'}, this.props.footer ? this.props.footer : ''
+					{key: 'footer', className: 'rdtPicker-footer'}, this.props.footer ? this.props.footer : ''
 				)
 			)
 		));
