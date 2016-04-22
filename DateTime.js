@@ -1,13 +1,13 @@
 'use strict';
 
 var assign = require('object-assign'),
-		React = require('react'),
-		DaysView = require('./src/DaysView'),
-		MonthsView = require('./src/MonthsView'),
-		YearsView = require('./src/YearsView'),
-		TimeView = require('./src/TimeView'),
-		moment = require('moment')
-		;
+	React = require('react'),
+	DaysView = require('./src/DaysView'),
+	MonthsView = require('./src/MonthsView'),
+	YearsView = require('./src/YearsView'),
+	TimeView = require('./src/TimeView'),
+	moment = require('moment')
+;
 
 var TYPES = React.PropTypes;
 var Datetime = React.createClass({
@@ -62,16 +62,15 @@ var Datetime = React.createClass({
 		if( state.open == undefined )
 			state.open = !this.props.input;
 
-		state.currentView = 'time';
-
+		state.currentView = this.props.viewMode;
 		return state;
 	},
 
 	getStateFromProps: function( props ){
 		var formats = this.getFormats( props ),
-				date = props.value || props.defaultValue,
-				selectedDate, viewDate
-				;
+			date = props.value || props.defaultValue,
+			selectedDate, viewDate
+		;
 
 		if( date && typeof date == 'string' )
 			selectedDate = this.localMoment( date, formats.datetime );
@@ -82,8 +81,8 @@ var Datetime = React.createClass({
 			selectedDate = null;
 
 		viewDate = selectedDate ?
-				selectedDate.clone().startOf("month") :
-				this.localMoment().startOf("month")
+			selectedDate.clone().startOf("month") :
+			this.localMoment().startOf("month")
 		;
 
 		return {
@@ -91,18 +90,17 @@ var Datetime = React.createClass({
 			viewDate: viewDate,
 			selectedDate: selectedDate,
 			inputValue: selectedDate ? selectedDate.format( formats.datetime ) : (date || ''),
-			open: props.open != undefined ? props.open : this.state && this.state.open,
-			showDate: false
+			open: props.open != undefined ? props.open : this.state && this.state.open
 		};
 	},
 
 	getFormats: function( props ){
 		var formats = {
-					date: props.dateFormat || '',
-					time: props.timeFormat || ''
-				},
-				locale = this.localMoment( props.date ).localeData()
-				;
+				date: props.dateFormat || '',
+				time: props.timeFormat || ''
+			},
+			locale = this.localMoment( props.date ).localeData()
+		;
 
 		if( formats.date === true ){
 			formats.date = locale.longDateFormat('L');
@@ -112,8 +110,8 @@ var Datetime = React.createClass({
 		}
 
 		formats.datetime = formats.date && formats.time ?
-		formats.date + ' ' + formats.time :
-		formats.date || formats.time
+			formats.date + ' ' + formats.time :
+			formats.date || formats.time
 		;
 
 		return formats;
@@ -121,8 +119,8 @@ var Datetime = React.createClass({
 
 	componentWillReceiveProps: function(nextProps) {
 		var formats = this.getFormats( nextProps ),
-				update = {}
-				;
+			update = {}
+		;
 
 		if( nextProps.value != this.props.value || nextProps.open != this.props.open ){
 			update = this.getStateFromProps( nextProps );
@@ -136,9 +134,9 @@ var Datetime = React.createClass({
 
 	onInputChange: function( e ) {
 		var value = e.target == null ? e : e.target.value,
-				localMoment = this.localMoment( value, this.state.inputFormat ),
-				update = { inputValue: value }
-				;
+			localMoment = this.localMoment( value, this.state.inputFormat ),
+			update = { inputValue: value }
+		;
 
 		if ( localMoment.isValid() && !this.props.value ) {
 			update.selectedDate = localMoment;
@@ -156,17 +154,17 @@ var Datetime = React.createClass({
 	showView: function( view ){
 		var me = this;
 		return function( e ){
-			me.setState({ currentView: view, showDate: view !== 'time' });
+			me.setState({ currentView: view });
 		};
 	},
 
 	setDate: function( type ){
 		var me = this,
-				nextViews = {
-					month: 'days',
-					year: 'months'
-				}
-				;
+			nextViews = {
+				month: 'days',
+				year: 'months'
+			}
+		;
 		return function( e ){
 			me.setState({
 				viewDate: me.state.viewDate.clone()[ type ]( parseInt(e.target.getAttribute('data-value')) ).startOf( type ),
@@ -188,8 +186,8 @@ var Datetime = React.createClass({
 
 		return function(){
 			var update = {},
-					date = toSelected ? 'selectedDate' : 'viewDate'
-					;
+				date = toSelected ? 'selectedDate' : 'viewDate'
+			;
 
 			update[ date ] = me.state[ date ].clone()[ op ]( amount, type );
 
@@ -200,10 +198,10 @@ var Datetime = React.createClass({
 	allowedSetTime: ['hours','minutes','seconds', 'milliseconds'],
 	setTime: function( type, value ){
 		var index = this.allowedSetTime.indexOf( type ) + 1,
-				state = this.state,
-				date = (state.selectedDate || state.viewDate).clone(),
-				nextType
-				;
+			state = this.state,
+			date = (state.selectedDate || state.viewDate).clone(),
+			nextType
+		;
 
 		// It is needed to set all the time properties
 		// to not to reset the time
@@ -224,11 +222,11 @@ var Datetime = React.createClass({
 
 	updateSelectedDate: function( e ) {
 		var target = e.target,
-				modifier = 0,
-				viewDate = this.state.viewDate,
-				currentDate = this.state.selectedDate || viewDate,
-				date
-				;
+			modifier = 0,
+			viewDate = this.state.viewDate,
+			currentDate = this.state.selectedDate || viewDate,
+			date
+		;
 
 		if(target.className.indexOf("rdtNew") != -1)
 			modifier = 1;
@@ -236,12 +234,12 @@ var Datetime = React.createClass({
 			modifier = -1;
 
 		date = viewDate.clone()
-				.month( viewDate.month() + modifier )
-				.date( parseInt( target.getAttribute('data-value') ) )
-				.hours( currentDate.hours() )
-				.minutes( currentDate.minutes() )
-				.seconds( currentDate.seconds() )
-				.milliseconds( currentDate.milliseconds() )
+			.month( viewDate.month() + modifier )
+			.date( parseInt( target.getAttribute('data-value') ) )
+			.hours( currentDate.hours() )
+			.minutes( currentDate.minutes() )
+			.seconds( currentDate.seconds() )
+			.milliseconds( currentDate.milliseconds() )
 		;
 
 		if( !this.props.value ){
@@ -281,9 +279,9 @@ var Datetime = React.createClass({
 
 	getComponentProps: function(){
 		var me = this,
-				formats = this.getFormats( this.props ),
-				props = {dateFormat: formats.date, timeFormat: formats.time}
-				;
+			formats = this.getFormats( this.props ),
+			props = {dateFormat: formats.date, timeFormat: formats.time}
+		;
 
 		this.componentProps.fromProps.forEach( function( name ){
 			props[ name ] = me.props[ name ];
@@ -300,12 +298,12 @@ var Datetime = React.createClass({
 
 	render: function() {
 		var Component = this.viewComponents[ this.state.currentView ],
-				DOM = React.DOM,
-				formats = this.getFormats( this.props ),
-				className = 'rdt ' + this.props.className,
-				children = [],
-				showDate = this.state.showDate
-				;
+			DOM = React.DOM,
+			formats = this.getFormats( this.props ),
+			className = 'rdt ' + this.props.className,
+			children = [],
+			showDate = this.state.currentView !== 'time'
+		;
 
 		if( this.props.input ){
 			children = [ DOM.input( assign({
@@ -327,26 +325,26 @@ var Datetime = React.createClass({
 		var date = this.state.selectedDate || this.state.viewDate;
 
 		return DOM.div({className: className},
-				children.concat(
-						DOM.div(
-								{ key: 'dt', className: 'rdtPicker' },
-								DOM.div(
-										{key: 'header', className: 'rdtPicker-header'},
-										[this.props.header ? this.props.header : '',
-											DOM.span({key: 'h', className:'picker'}, [
-												DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )])),
-												DOM.div({key: 'swd', className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'), onClick: this.showView('days')}, DOM.span({key: 'hd'},[DOM.i( {key: 'ci', className: 'calendar icon'}), date.format( formats.date )]))
-											])]
-								),
-								DOM.div({ key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
-								DOM.div(
-										{key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
-											DOM.span({key: 'tpb', className: 'timePickerButtons'},[
-												DOM.button({key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
-												DOM.button({key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
-								)
-						)
-				));
+			children.concat(
+			DOM.div(
+				{ key: 'dt', className: 'rdtPicker' },
+				DOM.div(
+					{key: 'header', className: 'rdtPicker-header'},
+						[this.props.header ? this.props.header : '',
+						DOM.span({key: 'h', className:'picker'}, [
+								DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )])),
+								DOM.div({key: 'swd', className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'), onClick: this.showView('days')}, DOM.span({key: 'hd'},[DOM.i( {key: 'ci', className: 'calendar icon'}), date.format( formats.date )]))
+						])]
+				),
+				DOM.div({ key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
+				DOM.div(
+					{key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
+							DOM.span({key: 'tpb', className: 'timePickerButtons'},[
+								DOM.button({key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
+								DOM.button({key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
+				)
+			)
+		));
 	}
 });
 

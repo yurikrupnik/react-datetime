@@ -9,9 +9,9 @@ var DateTimePickerTime = React.createClass({
 	},
 	calculateState: function( props ){
 		var date = props.selectedDate || props.viewDate,
-				format = props.timeFormat,
-				counters = []
-				;
+			format = props.timeFormat,
+			counters = []
+		;
 
 		if( format.indexOf('H') != -1 || format.indexOf('h') != -1 ){
 			counters.push('hours');
@@ -40,7 +40,7 @@ var DateTimePickerTime = React.createClass({
 	},
 	setValue: function(type, e) {
 		const pattern = /^[0-9]*$/, update = {};
-		var value = e.target.value;
+		let value = e.target.value;
 
 		if (value && pattern.test(value)) {
 			if( value > this.maxValues[ type ] || value < 0 ) {
@@ -53,8 +53,8 @@ var DateTimePickerTime = React.createClass({
 	},
 	render: function() {
 		var me = this,
-				counters = []
-				;
+			counters = []
+		;
 
 		this.state.counters.forEach( function(c){
 			if( counters.length )
@@ -65,18 +65,18 @@ var DateTimePickerTime = React.createClass({
 		if( this.state.counters.length == 3 && this.props.timeFormat.indexOf('S') != -1 ){
 			counters.push( DOM.div( {className: 'rdtCounterSeparator', key: 'sep5' }, ':' ));
 			counters.push(
-					DOM.div( {className: 'rdtCounter rdtMilli', key:'m'},
-							DOM.input({ value: this.state.milliseconds, outline: 'none', type: 'text', onChange: this.updateMilli })
+				DOM.div( {className: 'rdtCounter rdtMilli', key:'m'},
+					DOM.input({ value: this.state.milliseconds, outline: 'none', type: 'text', onChange: this.updateMilli })
 					)
-			);
+				);
 		}
 
 		return DOM.div( {className: 'rdtTime'},
-				DOM.table( {className: 'inner-content'}, [
-					DOM.tbody({key: 'b'}, DOM.tr({}, DOM.td({},
-							DOM.div({ className: 'rdtCounters' }, counters )
-					)))
-				])
+			DOM.table( {className: 'inner-content'}, [
+				DOM.tbody({key: 'b'}, DOM.tr({}, DOM.td({},
+					DOM.div({ className: 'rdtCounters' }, counters )
+				)))
+			])
 		);
 	},
 	componentWillReceiveProps: function( nextProps, nextState ){
@@ -91,9 +91,9 @@ var DateTimePickerTime = React.createClass({
 	},
 	onStartClicking: function( action, type ){
 		var me = this,
-				update = {},
-				value = this.state[ type ]
-				;
+			update = {},
+			value = this.state[ type ]
+		;
 
 
 		return function(){

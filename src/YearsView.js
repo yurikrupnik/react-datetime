@@ -10,9 +10,9 @@ var DateTimePickerYears = React.createClass({
 		return DOM.div({ className: 'rdtYears'},[
 			DOM.table({ key: 'a'}, DOM.thead({className: 'inner-content'}, [
 				DOM.tr({},[
-					DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.button({onClick: this.props.subtractTime(10, 'years'), type: 'button' }, '‹')),
-					DOM.th({ key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2 }, year + '-' + (year + 9) ),
-					DOM.th({ key: 'next', className: 'rdtNext'}, DOM.button({onClick: this.props.addTime(10, 'years'), type: 'button' }, '›'))
+				DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.div({onClick: this.props.subtractTime(10, 'years') }, '‹')),
+				DOM.th({ key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2 }, year + '-' + (year + 9) ),
+				DOM.th({ key: 'next', className: 'rdtNext'}, DOM.div({onClick: this.props.addTime(10, 'years') }, '›'))
 				])])),
 			DOM.table({ key: 'years', className: 'inner-content'}, DOM.tbody({}, this.renderYears( year )))
 		]);
@@ -20,12 +20,12 @@ var DateTimePickerYears = React.createClass({
 
 	renderYears: function( year ) {
 		var years = [],
-				i = -1,
-				rows = [],
-				renderer = this.props.renderYear || this.renderYear,
-				selectedDate = this.props.selectedDate,
-				classes, props
-				;
+			i = -1,
+			rows = [],
+			renderer = this.props.renderYear || this.renderYear,
+			selectedDate = this.props.selectedDate,
+			classes, props
+		;
 
 		year--;
 		while (i < 11) {

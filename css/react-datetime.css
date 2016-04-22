@@ -3,11 +3,11 @@
  */
 
 .rdt {
-  position: relative;
+	position: relative;
 }
 .rdtPicker {
-  display: none;
-  position: absolute;
+	display: none;
+	position: absolute;
   width: 250px;
   padding: 4px;
   margin-top: 1px;
@@ -17,15 +17,15 @@
   border: 1px solid #f9f9f9;
 }
 .rdtOpen .rdtPicker {
-  display: block;
+	display: block;
 }
 .rdtStatic .rdtPicker {
-  box-shadow: none;
-  position: static;
+	box-shadow: none;
+	position: static;
 }
 
 .rdtPicker .rdtTimeToggle {
-  text-align: center;
+	text-align: center;
 }
 
 .rdtPicker table {
@@ -99,38 +99,29 @@ input {
 }
 
 .data-section {
-  margin-bottom: 5px;
-  border-bottom: 2px solid #e2e2e2;
+  margin-bottom: 4px;
 }
 
 .time-switch {
   float: right;
-  padding-right: 10px;
-  padding-top: 10px;
+  padding-right: 15px;
+  padding-top: 6px;
   padding-bottom: 5px;
-  padding-left: 19px;
+  padding-left: 7px;
 }
 
 .date-switch {
-  padding-top: 10px;
+  padding-top: 6px;
   float: left;
-  padding-left: 10px;
+  padding-left: 13px;
   padding-bottom: 5px;
-  padding-right: 22px;
+  padding-right: 10px;
 }
 
 .unselected-right,
 .unselected-left {
   border-bottom: 1px solid #e2e2e2;
   padding-bottom: 3px;
-}
-
-.unselected-right {
-  border-right: 1px solid #e2e2e2;
-}
-
-.unselected-left {
-  border-left: 1px solid #e2e2e2;
 }
 
 .rdtPicker td span.rdtOld {
@@ -143,7 +134,7 @@ input {
   cursor: not-allowed;
 }
 .rdtPicker th {
-  border-bottom: 1px solid #f9f9f9;
+	border-bottom: 1px solid #f9f9f9;
 }
 .rdtPicker .dow {
   width: 14.2857%;
@@ -171,78 +162,86 @@ input {
 }
 
 .rdtPicker tfoot{
-  border-top: 1px solid #f9f9f9;
+	border-top: 1px solid #f9f9f9;
 }
 
 .rdtPicker button {
-  border: none;
-  background: none;
-  cursor: pointer;
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 .rdtPicker button:hover {
-  background-color: #eee;
+	background-color: #eee;
 }
 
 .rdtPicker thead button {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 td.rdtMonth,
 td.rdtYear {
-  height: 50px;
-  width: 25%;
-  cursor: pointer;
+	height: 50px;
+	width: 25%;
+	cursor: pointer;
 }
 td.rdtMonth:hover,
 td.rdtYear:hover {
-  background: #eee;
+	background: #eee;
 }
 
 .rdtCounters {
-  display: inline-block;
+	display: inline-block;
   font-size: 12px
 }
 
 .rdtCounters > div{
-  float: left;
+	float: left;
 }
 
 .rdtCounter {
-  height: 100px;
+	height: 100px;
 }
 
 .rdtCounter {
-  width: 40px;
+	width: 40px;
 }
 
 .rdtCounterSeparator {
-  line-height: 100px;
+	line-height: 100px;
 }
 
 .rdtCounter .rdtBtn {
-  height: 40%;
+	height: 40%;
   line-height: 40px;
   cursor: pointer;
 }
 .rdtCounter .rdtBtn:hover {
-  background: #fff;
+	background: #fff;
 }
 .rdtCounter .rdtCount {
-  height: 20%;
-  font-size: 1.2em;
+	height: 20%;
+	font-size: 1.2em;
   border: none !important;
   background: inherit !important;
 }
 
+.rdtCount:hover {
+  border: solid 1px !important;
+}
+
+.rdtCount:focus {
+  border: solid 1px !important;
+}
+
 .rdtMilli {
-  vertical-align: middle;
-  padding-left: 8px;
-  width: 48px;
+	vertical-align: middle;
+	padding-left: 8px;
+	width: 48px;
 }
 
 .rdtMilli input {
-  width: 100%;
-  font-size: 1.2em;
-  margin-top: 37px;
+	width: 100%;
+	font-size: 1.2em;
+	margin-top: 37px;
 }
