@@ -7,13 +7,14 @@ moment = require('moment')
 var DOM = React.DOM;
 var DateTimePickerMonths = React.createClass({
 	render: function() {
-		return DOM.div({ className: 'rdtMonths' },[
-			DOM.table({ key: 'a'}, DOM.thead({}, DOM.tr({},[
-				DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.button({onClick: this.props.subtractTime(1, 'years'), type: 'button' }, '‹')),
+		return DOM.div({ className: 'rdtMonths'},[
+			DOM.table({ key: 'a'}, DOM.thead({className: 'inner-content'}, [
+			DOM.tr({},[
+				DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.div({onClick: this.props.subtractTime(1, 'years')}, '‹')),
 				DOM.th({ key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2, 'data-value': this.props.viewDate.year()}, this.props.viewDate.year() ),
-				DOM.th({ key: 'next', className: 'rdtNext' }, DOM.button({onClick: this.props.addTime(1, 'years'), type: 'button' }, '›'))
-			]))),
-			DOM.table({ key: 'months'}, DOM.tbody({ key: 'b'}, this.renderMonths()))
+				DOM.th({ key: 'next', className: 'rdtNext' }, DOM.div({onClick: this.props.addTime(1, 'years')}, '›'))
+			])]),
+			DOM.table({ key: 'months', className: 'inner-content'}, DOM.tbody({ key: 'b'}, this.renderMonths())))
 		]);
 	},
 
