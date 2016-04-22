@@ -78,6 +78,51 @@
   cursor: not-allowed;
 }
 
+.inner-content {
+  background: #fff;
+  border: none;
+}
+
+.cancelBtn {
+  margin-left: 102px !important;
+  font-size: 14px;
+  color: red;
+}
+
+.saveBtn {
+  margin-left: 10px !important;
+}
+
+input {
+  outline: none;
+}
+
+.data-section {
+  margin-bottom: 4px;
+}
+
+.time-switch {
+  float: right;
+  padding-right: 15px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  padding-left: 7px;
+}
+
+.date-switch {
+  padding-top: 6px;
+  float: left;
+  padding-left: 13px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+}
+
+.unselected-right,
+.unselected-left {
+  border-bottom: 1px solid #e2e2e2;
+  padding-bottom: 3px;
+}
+
 .rdtPicker td span.rdtOld {
   color: #999999;
 }
@@ -146,6 +191,7 @@ td.rdtYear:hover {
 
 .rdtCounters {
 	display: inline-block;
+  font-size: 12px
 }
 
 .rdtCounters > div{
@@ -160,21 +206,32 @@ td.rdtYear:hover {
 	width: 40px;
 }
 
+
 .rdtCounterSeparator {
 	line-height: 100px;
 }
 
 .rdtCounter .rdtBtn {
 	height: 40%;
-  	line-height: 40px;
-  	cursor: pointer;
+  line-height: 40px;
+  cursor: pointer;
 }
 .rdtCounter .rdtBtn:hover {
-	background: #eee;
+	background: #fff;
 }
 .rdtCounter .rdtCount {
 	height: 20%;
 	font-size: 1.2em;
+  border: none !important;
+  background: inherit !important;
+}
+
+.rdtCount:hover {
+  border: solid 1px !important;
+}
+
+.rdtCount:focus {
+  border: solid 1px !important;
 }
 
 .rdtMilli {

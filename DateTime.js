@@ -25,6 +25,8 @@ var Datetime = React.createClass({
 		// defaultValue: TYPES.object | TYPES.string,
 		onBlur: TYPES.func,
 		onChange: TYPES.func,
+		onCancel: TYPES.func,
+		onSave: TYPES.func,
 		locale: TYPES.string,
 		input: TYPES.bool,
 		// dateFormat: TYPES.string | TYPES.bool,
@@ -43,7 +45,7 @@ var Datetime = React.createClass({
 		return {
 			className: '',
 			defaultValue: '',
-			viewMode: 'days',
+			viewMode: 'time',
 			inputProps: {},
 			input: true,
 			onBlur: nof,
@@ -60,8 +62,7 @@ var Datetime = React.createClass({
 		if( state.open == undefined )
 			state.open = !this.props.input;
 
-		state.currentView = this.props.dateFormat ? this.props.viewMode : 'time';
-
+		state.currentView = this.props.viewMode;
 		return state;
 	},
 
@@ -298,8 +299,10 @@ var Datetime = React.createClass({
 	render: function() {
 		var Component = this.viewComponents[ this.state.currentView ],
 			DOM = React.DOM,
+			formats = this.getFormats( this.props ),
 			className = 'rdt ' + this.props.className,
-			children = []
+			children = [],
+			showDate = this.state.currentView !== 'time'
 		;
 
 		if( this.props.input ){
@@ -319,15 +322,26 @@ var Datetime = React.createClass({
 		if( this.state.open )
 			className += ' rdtOpen';
 
-		return DOM.div({className: className}, children.concat(
+		var date = this.state.selectedDate || this.state.viewDate;
+
+		return DOM.div({className: className},
+			children.concat(
 			DOM.div(
 				{ key: 'dt', className: 'rdtPicker' },
 				DOM.div(
-					{key: 'header', className: 'rdtPicker-header'}, this.props.header ? this.props.header : ''
+					{key: 'header', className: 'rdtPicker-header'},
+						[this.props.header ? this.props.header : '',
+						DOM.span({key: 'h', className:'picker'}, [
+								DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )])),
+								DOM.div({key: 'swd', className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'), onClick: this.showView('days')}, DOM.span({key: 'hd'},[DOM.i( {key: 'ci', className: 'calendar icon'}), date.format( formats.date )]))
+						])]
 				),
-				React.createElement( Component, this.getComponentProps()),
+				DOM.div({ key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
 				DOM.div(
-					{key: 'footer', className: 'rdtPicker-footer'}, this.props.footer ? this.props.footer : ''
+					{key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
+							DOM.span({key: 'tpb', className: 'timePickerButtons'},[
+								DOM.button({key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
+								DOM.button({key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
 				)
 			)
 		));

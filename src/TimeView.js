@@ -34,9 +34,22 @@ var DateTimePickerTime = React.createClass({
 	renderCounter: function( type ){
 		return DOM.div({ key: type, className: 'rdtCounter'}, [
 			DOM.button({ key:'up', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'increase', type ), type: 'button' }, '▲' ),
-			DOM.div({ key:'c', className: 'rdtCount' }, this.state[ type ] ),
+			DOM.input({ key:'c', size: '1', className: 'rdtCount', value: this.state[ type ], onChange: this.setValue.bind(this, type) }),
 			DOM.button({ key:'do', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'decrease', type ), type: 'button' }, '▼' )
 		]);
+	},
+	setValue: function(type, e) {
+		const pattern = /^[0-9]*$/, update = {};
+		let value = e.target.value;
+
+		if (value && pattern.test(value)) {
+			if( value > this.maxValues[ type ] || value < 0 ) {
+				value = 0;
+			}
+			update[type] = this.pad( type, value );
+			this.setState(update);
+			this.props.setTime( type, update[type] );
+		};
 	},
 	render: function() {
 		var me = this,
@@ -53,14 +66,13 @@ var DateTimePickerTime = React.createClass({
 			counters.push( DOM.div( {className: 'rdtCounterSeparator', key: 'sep5' }, ':' ));
 			counters.push(
 				DOM.div( {className: 'rdtCounter rdtMilli', key:'m'},
-					DOM.input({ value: this.state.milliseconds, type: 'text', onChange: this.updateMilli })
+					DOM.input({ value: this.state.milliseconds, outline: 'none', type: 'text', onChange: this.updateMilli })
 					)
 				);
 		}
 
 		return DOM.div( {className: 'rdtTime'},
-			DOM.table( {}, [
-				this.renderHeader(),
+			DOM.table( {className: 'inner-content'}, [
 				DOM.tbody({key: 'b'}, DOM.tr({}, DOM.td({},
 					DOM.div({ className: 'rdtCounters' }, counters )
 				)))
@@ -76,15 +88,6 @@ var DateTimePickerTime = React.createClass({
 			this.props.setTime( 'milliseconds', milli );
 			this.setState({ milliseconds: milli });
 		}
-	},
-	renderHeader: function(){
-		if( !this.props.dateFormat )
-			return '';
-
-		var date = this.props.selectedDate || this.props.viewDate;
-		return DOM.thead({ key: 'h'}, DOM.tr({},
-			DOM.th( {className: 'rdtSwitch', colSpan: 4, onClick: this.props.showView('days')}, date.format( this.props.dateFormat ) )
-		));
 	},
 	onStartClicking: function( action, type ){
 		var me = this,
