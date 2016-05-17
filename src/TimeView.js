@@ -39,8 +39,9 @@ var DateTimePickerTime = React.createClass({
 		]);
 	},
 	setValue: function(type, e) {
-		const pattern = /^[0-9]*$/, update = {};
-		let value = e.target.value;
+		var pattern = /^[0-9]*$/, 
+		  update = {},
+		  value = e.target.value;
 
 		if (value && pattern.test(value)) {
 			if( value > this.maxValues[ type ] || value < 0 ) {
