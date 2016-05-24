@@ -37,7 +37,8 @@ var Datetime = React.createClass({
 		open: TYPES.bool,
 		strictParsing: TYPES.bool,
 		footer: TYPES.any,
-		header: TYPES.any
+		header: TYPES.any,
+		timeOnly: TYPES.bool
 	},
 
 	getDefaultProps: function() {
@@ -52,7 +53,8 @@ var Datetime = React.createClass({
 			onChange: nof,
 			timeFormat: true,
 			dateFormat: true,
-			strictParsing: true
+			strictParsing: true,
+			timeOnly: false
 		};
 	},
 
@@ -324,6 +326,21 @@ var Datetime = React.createClass({
 
 		var date = this.state.selectedDate || this.state.viewDate;
 
+		var pickerSwitches = [];
+		pickerSwitches.push(
+			DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
+		);
+
+		if (!this.props.timeOnly) {
+			pickerSwitches.push(
+				DOM.div({
+					key: 'swd',
+					className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'),
+					onClick: this.showView('days')
+				}, DOM.span({key: 'hd'}, [DOM.i({key: 'ci', className: 'calendar icon'}), date.format(formats.date)]))
+			);
+		}
+
 		return DOM.div({className: className},
 			children.concat(
 			DOM.div(
@@ -331,10 +348,7 @@ var Datetime = React.createClass({
 				DOM.div(
 					{key: 'header', className: 'rdtPicker-header'},
 						[this.props.header ? this.props.header : '',
-						DOM.span({key: 'h', className:'picker'}, [
-								DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )])),
-								DOM.div({key: 'swd', className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'), onClick: this.showView('days')}, DOM.span({key: 'hd'},[DOM.i( {key: 'ci', className: 'calendar icon'}), date.format( formats.date )]))
-						])]
+						DOM.span({key: 'h', className:'picker'}, pickerSwitches)]
 				),
 				DOM.div({ key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
 				DOM.div(
