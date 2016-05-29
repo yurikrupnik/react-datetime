@@ -108,7 +108,7 @@ var Datetime = React.createClass({
 			formats.date = locale.longDateFormat('L');
 		}
 		if( formats.time === true ){
-			formats.time = locale.longDateFormat('LT');
+			formats.time = 'HH:mm'
 		}
 
 		formats.datetime = formats.date && formats.time ?
