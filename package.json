@@ -1,6 +1,6 @@
 {
   "name": "demisto-react-datetime2",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "A lightweight but complete datetime picker React.js component.",
   "homepage": "https://github.com/arqex/react-datetime",
   "repository": {
