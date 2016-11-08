@@ -226,6 +226,11 @@ td.rdtYear:hover {
   background: inherit !important;
 }
 
+.rdtCount {
+    padding-bottom: 10px;
+    padding-bottom: 10px;
+}
+
 .rdtCount:hover {
   border: solid 1px !important;
 }
