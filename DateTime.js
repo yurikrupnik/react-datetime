@@ -2,15 +2,17 @@
 
 var assign = require('object-assign'),
 	React = require('react'),
-	DaysView = require('./src/DaysView'),
+  PropTypes = require('prop-types'),
+  createClass = require('create-react-class'),
+  DaysView = require('./src/DaysView'),
 	MonthsView = require('./src/MonthsView'),
 	YearsView = require('./src/YearsView'),
 	TimeView = require('./src/TimeView'),
 	moment = require('moment')
 ;
 
-var TYPES = React.PropTypes;
-var Datetime = React.createClass({
+var TYPES = PropTypes;
+var Datetime = createClass({
 	mixins: [
 		require('./src/onClickOutside')
 	],
@@ -51,6 +53,8 @@ var Datetime = React.createClass({
 			input: true,
 			onBlur: nof,
 			onChange: nof,
+			onCancel: nof,
+      onSave: nof,
 			timeFormat: true,
 			dateFormat: true,
 			strictParsing: true,
@@ -300,7 +304,6 @@ var Datetime = React.createClass({
 
 	render: function() {
 		var Component = this.viewComponents[ this.state.currentView ],
-			DOM = React.DOM,
 			formats = this.getFormats( this.props ),
 			className = 'rdt ' + this.props.className,
 			children = [],
@@ -308,7 +311,7 @@ var Datetime = React.createClass({
 		;
 
 		if( this.props.input ){
-			children = [ DOM.input( assign({
+			children = [ React.createElement('input', assign({
 				key: 'i',
 				type:'text',
 				className: 'form-control',
@@ -328,34 +331,34 @@ var Datetime = React.createClass({
 
 		var pickerSwitches = [];
 		pickerSwitches.push(
-			DOM.div({key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, DOM.span({key: 'ht'},[DOM.i( {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
+      React.createElement('div', {key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, React.createElement('span', {key: 'ht'},[React.createElement('i',  {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
 		);
 
 		if (!this.props.timeOnly) {
 			pickerSwitches.push(
-				DOM.div({
+        React.createElement('div', {
 					key: 'swd',
 					className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'),
 					onClick: this.showView('days')
-				}, DOM.span({key: 'hd'}, [DOM.i({key: 'ci', className: 'calendar icon'}), date.format(formats.date)]))
+				}, React.createElement('span', { key: 'hd' }, [React.createElement('i', {key: 'ci', className: 'calendar icon'}), date.format(formats.date)]))
 			);
 		}
 
-		return DOM.div({className: className},
+		return React.createElement('div', {className: className},
 			children.concat(
-			DOM.div(
-				{ key: 'dt', className: 'rdtPicker' },
-				DOM.div(
-					{key: 'header', className: 'rdtPicker-header'},
+        React.createElement('div',
+          { key: 'dt', className: 'rdtPicker' },
+          React.createElement('div',
+            {key: 'header', className: 'rdtPicker-header'},
 						[this.props.header ? this.props.header : '',
-						DOM.span({key: 'h', className:'picker'}, pickerSwitches)]
+              React.createElement('span', {key: 'h', className:'picker'}, pickerSwitches)]
 				),
-				DOM.div({ key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
-				DOM.div(
-					{key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
-							DOM.span({key: 'tpb', className: 'timePickerButtons'},[
-								DOM.button({key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
-								DOM.button({key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
+          React.createElement('div', { key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
+          React.createElement('div',
+            {key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
+              React.createElement('span', {key: 'tpb', className: 'timePickerButtons'},[
+                React.createElement('button', {key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
+                React.createElement('button', {key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
 				)
 			)
 		));

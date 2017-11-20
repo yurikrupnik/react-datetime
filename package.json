@@ -1,15 +1,15 @@
 {
-  "name": "demisto-react-datetime2",
-  "version": "3.0.8",
+  "name": "react-datetime-demisto",
+  "version": "3.0.9",
   "description": "A lightweight but complete datetime picker React.js component.",
-  "homepage": "https://github.com/arqex/react-datetime",
+  "homepage": "https://github.com/demisto/react-datetime",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arqex/react-datetime"
+    "url": "https://github.com/demisto/react-datetime"
   },
   "main": "./DateTime.js",
   "scripts": {
-    "build": "./node_modules/.bin/gulp.cmd",
+    "build": "./node_modules/.bin/gulp",
     "test": "node node_modules/mocha/bin/mocha tests"
   },
   "keywords": [
@@ -20,7 +20,7 @@
     "datetimepicker",
     "datetime"
   ],
-  "author": "Yuri Krupnik",
+  "author": "Demisto",
   "license": "MIT",
   "peerDependencies": {
     "moment": ">=2.8.1"
@@ -32,13 +32,15 @@
     "gulp-webpack": "^1.5.0",
     "jsdom": "^7.0.2",
     "mocha": "^2.2.5",
-    "react": ">=0.13",
-    "react-tools": "^0.13.2",
+    "react": ">=16.1.1",
     "webpack": "^1.5.1",
     "webpack-dev-server": "^1.7.0"
   },
   "dependencies": {
+    "create-react-class": "^15.6.2",
     "object-assign": "^3.0.0",
-    "react-onclickoutside": "^4.1.0"
+    "prop-types": "^15.6.0",
+    "react-dom": "^16.1.1",
+    "react-onclickoutside": "^6.7.0"
   }
 }
