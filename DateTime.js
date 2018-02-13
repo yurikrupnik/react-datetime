@@ -357,8 +357,8 @@ var Datetime = createClass({
           React.createElement('div',
             {key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
               React.createElement('span', {key: 'tpb', className: 'timePickerButtons'},[
-                React.createElement('button', {key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
-                React.createElement('button', {key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
+                React.createElement('div', {key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
+                React.createElement('div', {key: 'save', className: 'saveBtn ui button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
 				)
 			)
 		));

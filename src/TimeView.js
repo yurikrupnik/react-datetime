@@ -33,9 +33,9 @@ var DateTimePickerTime = createClass({
 	},
 	renderCounter: function( type ){
 		return React.createElement('div', { key: type, className: 'rdtCounter'}, [
-      React.createElement('button',{ key:'up', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'increase', type ), type: 'button' }, '▲' ),
+      React.createElement('div',{ key:'up', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'increase', type ) }, '▲' ),
       React.createElement('input',{ key:'c', size: '1', className: 'rdtCount', value: this.state[ type ], onChange: this.setValue.bind(this, type) }),
-      React.createElement('button',{ key:'do', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'decrease', type ), type: 'button' }, '▼' )
+      React.createElement('div',{ key:'do', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'decrease', type ) }, '▼' )
 		]);
 	},
 	setValue: function(type, e) {
@@ -72,7 +72,7 @@ var DateTimePickerTime = createClass({
 				);
 		}
 
-		return React.createElement('button', {className: 'rdtTime'},
+		return React.createElement('div', {className: 'rdtTime'},
       React.createElement('table', {className: 'inner-content'}, [
         React.createElement('tbody',{key: 'b'}, React.createElement('tr',{}, React.createElement('td',{},
           React.createElement('div',{ className: 'rdtCounters' }, counters )
