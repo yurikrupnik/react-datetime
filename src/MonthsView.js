@@ -12,8 +12,8 @@ var DateTimePickerMonths = createClass({
 				React.createElement('th', { key: 'prev', className: 'rdtPrev' }, React.createElement('div', {onClick: this.props.subtractTime(1, 'years')}, '‹')),
 				React.createElement('th', { key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2, 'data-value': this.props.viewDate.year()}, this.props.viewDate.year() ),
 				React.createElement('th', { key: 'next', className: 'rdtNext' }, React.createElement('div', {onClick: this.props.addTime(1, 'years')}, '›'))
-			])]),
-			React.createElement('table', { key: 'months', className: 'inner-content'}, React.createElement('tbody', { key: 'b'}, this.renderMonths())))
+			])])),
+      React.createElement('table', { key: 'months', className: 'inner-content'}, React.createElement('tbody', { key: 'b'}, this.renderMonths()))
 		]);
 	},
 

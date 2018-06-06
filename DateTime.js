@@ -330,10 +330,6 @@ var Datetime = createClass({
 		var date = this.state.selectedDate || this.state.viewDate;
 
 		var pickerSwitches = [];
-		pickerSwitches.push(
-      React.createElement('div', {key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, React.createElement('span', {key: 'ht'},[React.createElement('i',  {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
-		);
-
 		if (!this.props.timeOnly) {
 			pickerSwitches.push(
         React.createElement('div', {
@@ -343,6 +339,10 @@ var Datetime = createClass({
 				}, React.createElement('span', { key: 'hd' }, [React.createElement('i', {key: 'ci', className: 'calendar icon'}), date.format(formats.date)]))
 			);
 		}
+
+    pickerSwitches.push(
+      React.createElement('div', {key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, React.createElement('span', {key: 'ht'},[React.createElement('i',  {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
+    );
 
 		return React.createElement('div', {className: className},
 			children.concat(
