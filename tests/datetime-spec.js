@@ -4,11 +4,11 @@ DOM();
 
 
 // Needs to be global to work in Travis CI
-React = require('react/addons');
-ReactDOM = require('react-dom');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
-var ReactAddons = require('react/addons'),
-	Utils = React.addons.TestUtils,
+var ReactAddons = require('react'),
+	Utils = require('react-dom/test-utils'),
 	Datetime = require('../DateTime'),
 	assert = require('assert'),
 	moment = require('moment')
@@ -18,7 +18,7 @@ var createDatetime = function( props ){
 	document.body.innerHTML = '<div id="root"></div>';
 
 	ReactDOM.render(
-		React.createElement( Datetime, props ),
+		React.createElement(Datetime, props),
 		document.getElementById('root')
 	);
 
@@ -31,7 +31,7 @@ var trigger = function( name, element ){
    element.dispatchEvent( ev );
 };
 
-var ev = React.addons.TestUtils.Simulate;
+var ev = Utils.Simulate;
 var dt = {
 	dt: function(){
 		return document.getElementById('root').children[0];
@@ -110,6 +110,8 @@ describe( 'Datetime', function(){
 		var component = createDatetime({ value: date }),
 			input = component.children[0]
 		;
+    console.log('###strDate', strDate);
+    console.log('###comp', Object.keys(component.children[0]));
 		assert.equal( input.value, strDate );
 	});
 
@@ -232,7 +234,7 @@ describe( 'Datetime', function(){
 				currentDate = current;
 				selectedDate = selected;
 
-				return React.DOM.td( props, 'day' );
+				return React.createElement('td', props, 'day' );
 			}}),
 			view = dt.view()
 		;
@@ -260,7 +262,7 @@ describe( 'Datetime', function(){
 				year = y;
 				selectedDate = selected;
 
-				return React.DOM.td( props, 'month' );
+				return React.createElement('td', props, 'month' );
 			}}),
 			view = dt.view()
 		;
@@ -285,7 +287,7 @@ describe( 'Datetime', function(){
 				year = y;
 				selectedDate = selected;
 
-				return React.DOM.td( props, 'year' );
+				return React.createElement('td', props, 'year' );
 			}}),
 			view = dt.view()
 		;

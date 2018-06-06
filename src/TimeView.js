@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react');
+var createClass = require('create-react-class');
 
-var DOM = React.DOM;
-var DateTimePickerTime = React.createClass({
+var DateTimePickerTime = createClass({
 	getInitialState: function(){
 		return this.calculateState( this.props );
 	},
@@ -32,11 +32,25 @@ var DateTimePickerTime = React.createClass({
 		};
 	},
 	renderCounter: function( type ){
-		return DOM.div({ key: type, className: 'rdtCounter'}, [
-			DOM.button({ key:'up', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'increase', type ), type: 'button' }, '▲' ),
-			DOM.div({ key:'c', className: 'rdtCount' }, this.state[ type ] ),
-			DOM.button({ key:'do', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'decrease', type ), type: 'button' }, '▼' )
+		return React.createElement('div', { key: type, className: 'rdtCounter'}, [
+      React.createElement('div',{ key:'up', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'increase', type ) }, '▲' ),
+      React.createElement('input',{ key:'c', size: '1', className: 'rdtCount', value: this.state[ type ], onChange: this.setValue.bind(this, type) }),
+      React.createElement('div',{ key:'do', className: 'rdtBtn', onMouseDown: this.onStartClicking( 'decrease', type ) }, '▼' )
 		]);
+	},
+	setValue: function(type, e) {
+		var pattern = /^[0-9]*$/, 
+		  update = {},
+		  value = e.target.value;
+
+		if (value && pattern.test(value)) {
+			if( value > this.maxValues[ type ] || value < 0 ) {
+				value = 0;
+			}
+			update[type] = this.pad( type, value );
+			this.setState(update);
+			this.props.setTime( type, update[type] );
+		};
 	},
 	render: function() {
 		var me = this,
@@ -45,24 +59,23 @@ var DateTimePickerTime = React.createClass({
 
 		this.state.counters.forEach( function(c){
 			if( counters.length )
-				counters.push( DOM.div( {key: 'sep' + counters.length, className: 'rdtCounterSeparator' }, ':' ));
+				counters.push( React.createElement('div', {key: 'sep' + counters.length, className: 'rdtCounterSeparator' }, ':' ));
 			counters.push( me.renderCounter( c ) );
 		});
 
 		if( this.state.counters.length == 3 && this.props.timeFormat.indexOf('S') != -1 ){
-			counters.push( DOM.div( {className: 'rdtCounterSeparator', key: 'sep5' }, ':' ));
+			counters.push( React.createElement('div', {className: 'rdtCounterSeparator', key: 'sep5' }, ':' ));
 			counters.push(
-				DOM.div( {className: 'rdtCounter rdtMilli', key:'m'},
-					DOM.input({ value: this.state.milliseconds, type: 'text', onChange: this.updateMilli })
+        React.createElement('div', {className: 'rdtCounter rdtMilli', key:'m'},
+          React.createElement('input',{ value: this.state.milliseconds, outline: 'none', type: 'text', onChange: this.updateMilli })
 					)
 				);
 		}
 
-		return DOM.div( {className: 'rdtTime'},
-			DOM.table( {}, [
-				this.renderHeader(),
-				DOM.tbody({key: 'b'}, DOM.tr({}, DOM.td({},
-					DOM.div({ className: 'rdtCounters' }, counters )
+		return React.createElement('div', {className: 'rdtTime'},
+      React.createElement('table', {className: 'inner-content'}, [
+        React.createElement('tbody',{key: 'b'}, React.createElement('tr',{}, React.createElement('td',{},
+          React.createElement('div',{ className: 'rdtCounters' }, counters )
 				)))
 			])
 		);
@@ -76,15 +89,6 @@ var DateTimePickerTime = React.createClass({
 			this.props.setTime( 'milliseconds', milli );
 			this.setState({ milliseconds: milli });
 		}
-	},
-	renderHeader: function(){
-		if( !this.props.dateFormat )
-			return '';
-
-		var date = this.props.selectedDate || this.props.viewDate;
-		return DOM.thead({ key: 'h'}, DOM.tr({},
-			DOM.th( {className: 'rdtSwitch', colSpan: 4, onClick: this.props.showView('days')}, date.format( this.props.dateFormat ) )
-		));
 	},
 	onStartClicking: function( action, type ){
 		var me = this,

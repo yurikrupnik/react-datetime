@@ -1,19 +1,21 @@
 'use strict';
 
 var React = require('react');
+var createClass = require('create-react-class');
 
-var DOM = React.DOM;
-var DateTimePickerYears = React.createClass({
+var DOM = require('react-dom');
+var DateTimePickerYears = createClass({
 	render: function() {
 		var year = parseInt(this.props.viewDate.year() / 10, 10) * 10;
 
-		return DOM.div({ className: 'rdtYears' },[
-			DOM.table({ key: 'a'}, DOM.thead({}, DOM.tr({},[
-				DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.button({onClick: this.props.subtractTime(10, 'years'), type: 'button' }, '‹')),
-				DOM.th({ key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2 }, year + '-' + (year + 9) ),
-				DOM.th({ key: 'next', className: 'rdtNext'}, DOM.button({onClick: this.props.addTime(10, 'years'), type: 'button' }, '›'))
-				]))),
-			DOM.table({ key: 'years'}, DOM.tbody({}, this.renderYears( year )))
+		return React.createElement('div', { className: 'rdtYears'},[
+			React.createElement('table', { key: 'a'}, React.createElement('thead', {className: 'inner-content'}, [
+				React.createElement('tr', {},[
+				React.createElement('th', { key: 'prev', className: 'rdtPrev' }, React.createElement('div', {onClick: this.props.subtractTime(10, 'years') }, '‹')),
+				React.createElement('th', { key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2 }, year + '-' + (year + 9) ),
+				React.createElement('th', { key: 'next', className: 'rdtNext'}, React.createElement('div', {onClick: this.props.addTime(10, 'years') }, '›'))
+				])])),
+			React.createElement('table', { key: 'years', className: 'inner-content'}, React.createElement('tbody', {}, this.renderYears( year )))
 		]);
 	},
 
@@ -44,7 +46,7 @@ var DateTimePickerYears = React.createClass({
 			years.push( renderer( props, year, selectedDate && selectedDate.clone() ));
 
 			if( years.length == 4 ){
-				rows.push( DOM.tr({ key: i }, years ) );
+				rows.push( React.createElement('tr', { key: i }, years ) );
 				years = [];
 			}
 
@@ -56,7 +58,7 @@ var DateTimePickerYears = React.createClass({
 	},
 
 	renderYear: function( props, year, selectedDate ){
-		return DOM.td( props, year );
+		return React.createElement('td',  props, year );
 	}
 });
 

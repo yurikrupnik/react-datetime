@@ -2,15 +2,17 @@
 
 var assign = require('object-assign'),
 	React = require('react'),
-	DaysView = require('./src/DaysView'),
+  PropTypes = require('prop-types'),
+  createClass = require('create-react-class'),
+  DaysView = require('./src/DaysView'),
 	MonthsView = require('./src/MonthsView'),
 	YearsView = require('./src/YearsView'),
 	TimeView = require('./src/TimeView'),
 	moment = require('moment')
 ;
 
-var TYPES = React.PropTypes;
-var Datetime = React.createClass({
+var TYPES = PropTypes;
+var Datetime = createClass({
 	mixins: [
 		require('./src/onClickOutside')
 	],
@@ -25,6 +27,8 @@ var Datetime = React.createClass({
 		// defaultValue: TYPES.object | TYPES.string,
 		onBlur: TYPES.func,
 		onChange: TYPES.func,
+		onCancel: TYPES.func,
+		onSave: TYPES.func,
 		locale: TYPES.string,
 		input: TYPES.bool,
 		// dateFormat: TYPES.string | TYPES.bool,
@@ -35,7 +39,8 @@ var Datetime = React.createClass({
 		open: TYPES.bool,
 		strictParsing: TYPES.bool,
 		footer: TYPES.any,
-		header: TYPES.any
+		header: TYPES.any,
+		timeOnly: TYPES.bool
 	},
 
 	getDefaultProps: function() {
@@ -43,14 +48,17 @@ var Datetime = React.createClass({
 		return {
 			className: '',
 			defaultValue: '',
-			viewMode: 'days',
+			viewMode: 'time',
 			inputProps: {},
 			input: true,
 			onBlur: nof,
 			onChange: nof,
+			onCancel: nof,
+      onSave: nof,
 			timeFormat: true,
 			dateFormat: true,
-			strictParsing: true
+			strictParsing: true,
+			timeOnly: false
 		};
 	},
 
@@ -60,8 +68,7 @@ var Datetime = React.createClass({
 		if( state.open == undefined )
 			state.open = !this.props.input;
 
-		state.currentView = this.props.dateFormat ? this.props.viewMode : 'time';
-
+		state.currentView = this.props.viewMode;
 		return state;
 	},
 
@@ -105,7 +112,7 @@ var Datetime = React.createClass({
 			formats.date = locale.longDateFormat('L');
 		}
 		if( formats.time === true ){
-			formats.time = locale.longDateFormat('LT');
+			formats.time = 'HH:mm'
 		}
 
 		formats.datetime = formats.date && formats.time ?
@@ -297,13 +304,14 @@ var Datetime = React.createClass({
 
 	render: function() {
 		var Component = this.viewComponents[ this.state.currentView ],
-			DOM = React.DOM,
+			formats = this.getFormats( this.props ),
 			className = 'rdt ' + this.props.className,
-			children = []
+			children = [],
+			showDate = this.state.currentView !== 'time'
 		;
 
 		if( this.props.input ){
-			children = [ DOM.input( assign({
+			children = [ React.createElement('input', assign({
 				key: 'i',
 				type:'text',
 				className: 'form-control',
@@ -319,15 +327,38 @@ var Datetime = React.createClass({
 		if( this.state.open )
 			className += ' rdtOpen';
 
-		return DOM.div({className: className}, children.concat(
-			DOM.div(
-				{ key: 'dt', className: 'rdtPicker' },
-				DOM.div(
-					{key: 'header', className: 'rdtPicker-header'}, this.props.header ? this.props.header : ''
+		var date = this.state.selectedDate || this.state.viewDate;
+
+		var pickerSwitches = [];
+		if (!this.props.timeOnly) {
+			pickerSwitches.push(
+        React.createElement('div', {
+					key: 'swd',
+					className: 'rdtSwitch date-switch ' + (showDate ? 'inner-content' : 'unselected-right'),
+					onClick: this.showView('days')
+				}, React.createElement('span', { key: 'hd' }, [React.createElement('i', {key: 'ci', className: 'calendar icon'}), date.format(formats.date)]))
+			);
+		}
+
+    pickerSwitches.push(
+      React.createElement('div', {key: 'swt', className: 'rdtSwitch time-switch ' + (!showDate ? 'inner-content' : 'unselected-left'), onClick: this.showView('time')}, React.createElement('span', {key: 'ht'},[React.createElement('i',  {key: 'wi', className: 'wait icon'}), date.format( formats.time )]))
+    );
+
+		return React.createElement('div', {className: className},
+			children.concat(
+        React.createElement('div',
+          { key: 'dt', className: 'rdtPicker' },
+          React.createElement('div',
+            {key: 'header', className: 'rdtPicker-header'},
+						[this.props.header ? this.props.header : '',
+              React.createElement('span', {key: 'h', className:'picker'}, pickerSwitches)]
 				),
-				React.createElement( Component, this.getComponentProps()),
-				DOM.div(
-					{key: 'footer', className: 'rdtPicker-footer'}, this.props.footer ? this.props.footer : ''
+          React.createElement('div', { key: 'content', className: 'data-section'}, React.createElement( Component, this.getComponentProps())),
+          React.createElement('div',
+            {key: 'footer', className: 'rdtPicker-footer'}, [this.props.footer ? this.props.footer : '',
+              React.createElement('span', {key: 'tpb', className: 'timePickerButtons'},[
+                React.createElement('div', {key: 'cancel', className: 'cancelBtn', onClick: this.props.onCancel.bind(this)}, 'Cancel'),
+                React.createElement('div', {key: 'save', className: 'saveBtn ui mini button green', onClick: this.props.onSave.bind(this)}, 'Save')])]
 				)
 			)
 		));

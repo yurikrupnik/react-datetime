@@ -1,19 +1,19 @@
 'use strict';
 
 var React = require('react'),
-moment = require('moment')
+	createClass = require('create-react-class')
 ;
 
-var DOM = React.DOM;
-var DateTimePickerMonths = React.createClass({
+var DateTimePickerMonths = createClass({
 	render: function() {
-		return DOM.div({ className: 'rdtMonths' },[
-			DOM.table({ key: 'a'}, DOM.thead({}, DOM.tr({},[
-				DOM.th({ key: 'prev', className: 'rdtPrev' }, DOM.button({onClick: this.props.subtractTime(1, 'years'), type: 'button' }, '‹')),
-				DOM.th({ key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2, 'data-value': this.props.viewDate.year()}, this.props.viewDate.year() ),
-				DOM.th({ key: 'next', className: 'rdtNext' }, DOM.button({onClick: this.props.addTime(1, 'years'), type: 'button' }, '›'))
-			]))),
-			DOM.table({ key: 'months'}, DOM.tbody({ key: 'b'}, this.renderMonths()))
+		return React.createElement('div', { className: 'rdtMonths'},[
+			React.createElement('table', { key: 'a'}, React.createElement('thead', {className: 'inner-content'}, [
+			React.createElement('tr', {},[
+				React.createElement('th', { key: 'prev', className: 'rdtPrev' }, React.createElement('div', {onClick: this.props.subtractTime(1, 'years')}, '‹')),
+				React.createElement('th', { key: 'year', className: 'rdtSwitch', onClick: this.props.showView('years'), colSpan: 2, 'data-value': this.props.viewDate.year()}, this.props.viewDate.year() ),
+				React.createElement('th', { key: 'next', className: 'rdtNext' }, React.createElement('div', {onClick: this.props.addTime(1, 'years')}, '›'))
+			])])),
+      React.createElement('table', { key: 'months', className: 'inner-content'}, React.createElement('tbody', { key: 'b'}, this.renderMonths()))
 		]);
 	},
 
@@ -43,7 +43,7 @@ var DateTimePickerMonths = React.createClass({
 			months.push( renderer( props, i, year, date && date.clone() ));
 
 			if( months.length == 4 ){
-				rows.push( DOM.tr({ key: month + '_' + rows.length }, months) );
+				rows.push( React.createElement('tr', { key: month + '_' + rows.length }, months) );
 				months = [];
 			}
 
@@ -54,7 +54,7 @@ var DateTimePickerMonths = React.createClass({
 	},
 
 	renderMonth: function( props, month, year, selectedDate ) {
-		return DOM.td( props, this.props.viewDate.localeData()._monthsShort[ month ] );
+		return React.createElement('td',  props, this.props.viewDate.localeData()._monthsShort[ month ] );
 	}
 });
 
